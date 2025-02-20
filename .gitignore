@@ -4,3 +4,6 @@ dist/
 
 # TYPES OUTPUT
 types/
+
+# TESTS
+coverage/
