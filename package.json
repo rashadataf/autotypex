@@ -6,7 +6,12 @@
   "types": "dist/index.d.ts",
   "author": "Rashad Ataf <rashadataf@gmail.com>",
   "license": "MIT",
-  "keywords": ["typescript", "type inference", "typescript types", "js to ts"],
+  "keywords": [
+    "typescript",
+    "type inference",
+    "typescript types",
+    "js to ts"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/rashadataf/autotype-js.git"

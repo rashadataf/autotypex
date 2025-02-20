@@ -2,7 +2,7 @@
 import { Command } from "commander";
 import { existsSync, readFileSync } from "fs";
 import { resolve } from "path";
-import { inferType } from "../src/utils/types";
+import { inferType } from "../utils/types";
 
 const program = new Command();
 
