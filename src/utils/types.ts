@@ -14,9 +14,11 @@ function getType(value: any): string {
     }
     if (value === null) return "null";
     if (typeof value === "object") {
-        return `{ ${Object.entries(value)
-            .map(([key, val]) => `${key}: ${getType(val)}`)
-            .join("; ")} }`;
+        const properties = Object.entries(value)
+            .map(([key, val]) => `${key}: ${getType(val)};`)
+            .join(" ");
+
+        return `{ ${properties} }`;
     }
     return typeof value;
 }
@@ -44,7 +46,7 @@ export function inferType(
     name: string = "InferredType",
     saveToFile: boolean = false
 ): string {
-    const typeDef = `type ${name} = ${getType(obj)};`;
+    const typeDef = `type ${name} = ${getType(obj)}`;
 
     if (saveToFile) {
         saveTypeToFile(name, typeDef);
