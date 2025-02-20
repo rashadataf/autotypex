@@ -1,3 +1,16 @@
 import { inferType } from './utils/types'
 
-console.log(inferType({ name: "Rashad", age: 30 }));
+
+
+
+
+// TEST
+
+const sample = {
+    name: "Alice",
+    age: 25,
+    isAdmin: false,
+    settings: { theme: "light", notifications: true },
+};
+
+console.log(inferType(sample, "UserType", true));
