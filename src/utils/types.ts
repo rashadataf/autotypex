@@ -13,7 +13,11 @@ function getType(value: any): string {
         return `${arrayType}[]`;
     }
     if (value === null) return "null";
+    if (value instanceof Date) return "Date";
     if (typeof value === "object") {
+        if (Object.keys(value).length === 0) {
+            return "{}";
+        }
         const properties = Object.entries(value)
             .map(([key, val]) => `${key}: ${getType(val)};`)
             .join(" ");
