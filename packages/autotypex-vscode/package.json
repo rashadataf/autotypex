@@ -18,7 +18,27 @@
         "command": "autotypex-vscode.inferType",
         "title": "Infer TypeScript Type from Object"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "AutoTypeX Settings",
+      "properties": {
+        "autotypex.formatOutput": {
+          "type": "boolean",
+          "default": true,
+          "description": "Format the output TypeScript interface."
+        },
+        "autotypex.typeName": {
+          "type": "string",
+          "default": "InferredType",
+          "description": "The default name for the generated TypeScript type."
+        },
+        "autotypex.saveToFile": {
+          "type": "boolean",
+          "default": false,
+          "description": "Save the inferred TypeScript type to a `.d.ts` file in the workspace."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "yarn run package",

@@ -1,4 +1,26 @@
 import * as vscode from 'vscode';
+import * as fs from 'fs';
+import * as path from 'path';
+
+/**
+ * Saves the inferred TypeScript type to a `.d.ts` file in the workspace.
+ */
+function saveTypeToFile(fileName: string, content: string) {
+	const workspaceFolders = vscode.workspace.workspaceFolders;
+	if (!workspaceFolders) {
+		vscode.window.showErrorMessage("No workspace folder found.");
+		return;
+	}
+
+	const filePath = path.join(workspaceFolders[0].uri.fsPath, "types", `${fileName}.d.ts`);
+
+	// Ensure the `types` folder exists
+	fs.mkdirSync(path.dirname(filePath), { recursive: true });
+
+	// Write the file
+	fs.writeFileSync(filePath, content);
+	vscode.window.showInformationMessage(`Saved inferred type to: ${filePath}`);
+}
 
 /**
  * Cleans the selected text to extract a valid JSON object.
@@ -49,12 +71,65 @@ function getType(value: any): string {
 }
 
 /**
+ * Properly formats TypeScript output with correct indentation.
+ */
+function formatType(typeString: string, indentLevel = 0): string {
+	let formatted = "";
+	let depth = indentLevel;
+	let insideObject = false;
+
+	for (let i = 0; i < typeString.length; i++) {
+		const char = typeString[i];
+
+		// Increase depth when opening a new block
+		if (char === "{") {
+			insideObject = true;
+			formatted += " {\n" + "\t".repeat(depth + 1);
+			depth++;
+		}
+		// Ensure properties are on new lines
+		else if (char === ";") {
+			formatted += ";\n" + "\t".repeat(depth);
+		}
+		// Decrease depth before closing a block
+		else if (char === "}") {
+			depth--; // Reduce depth before adding the closing brace
+			formatted = formatted.trimEnd(); // Trim any extra spaces before closing brace
+			formatted += "\n" + "\t".repeat(depth) + "}";
+			insideObject = false;
+		}
+		// Append everything else normally
+		else {
+			formatted += char;
+		}
+	}
+
+	return formatted;
+}
+
+
+
+
+/**
  * Infers the TypeScript type definition from a JavaScript object.
  */
-function inferType(obj: any, name: string = "InferredType"): string {
-	const typeDef = `type ${name} = ${getType(obj)}`;
+function inferType(obj: any): string {
+	const formatOutput = vscode.workspace.getConfiguration("autotypex").get<boolean>("formatOutput", true);
+	const typeName = vscode.workspace.getConfiguration("autotypex").get<string>("typeName", "InferredType");
+	const saveToFile = vscode.workspace.getConfiguration("autotypex").get<boolean>("saveToFile", false);
+
+	let typeDef = `type ${typeName} = `;
+
+	typeDef += formatOutput ? formatType(getType(obj)) : getType(obj);
+
+	// Save to file if enabled
+	if (saveToFile) {
+		saveTypeToFile(typeName, typeDef);
+	}
+
 	return typeDef;
 }
+
 
 /**
  * Activate function: Registers the VS Code command.
@@ -87,7 +162,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 			// Insert the inferred type in the editor
 			editor.edit(editBuilder => {
-				editBuilder.insert(editor.selection.active, `\n\n${inferredType}\n`);
+				editBuilder.insert(editor.selection.active, `\n\n${inferredType}\n\n`);
 			});
 
 			vscode.window.showInformationMessage('Inferred TypeScript type inserted.');
