@@ -1,27 +1,106 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-console.log('logs before activate');
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
+/**
+ * Cleans the selected text to extract a valid JSON object.
+ */
+function sanitizeObjectString(text: string): string {
+	// Remove variable declarations (`const user = ...`)
+	text = text.replace(/^\s*(const|let|var)?\s*\w+\s*=\s*/, '').trim();
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "autotypex-vscode" is now active!');
+	// Wrap object keys without quotes to valid JSON keys
+	text = text.replace(/([{,])\s*(\w+)\s*:/g, '$1 "$2":');
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('autotypex-vscode.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from autotypex-vscode!');
-	});
+	// Convert single quotes to double quotes (valid JSON)
+	text = text.replace(/'/g, '"');
 
-	context.subscriptions.push(disposable);
+	// Remove trailing commas before closing braces/brackets
+	text = text.replace(/,\s*([}\]])/g, '$1');
+
+	// replace functions with the word function
+	text = text.replace(/"(\w+)"\s*:\s*\([^)]*\)\s*=>\s*\{[^}]*\}/g, '"$1": "function"'); // Arrow functions
+	text = text.replace(/"(\w+)"\s*:\s*function\s*\([^)]*\)\s*\{[^}]*\}/g, '"$1": "function"'); // Regular functions
+
+	return text;
 }
 
-// This method is called when your extension is deactivated
-export function deactivate() {}
+
+/**
+ * Recursively determines the TypeScript type of a given JavaScript value.
+ */
+function getType(value: any): string {
+	if (Array.isArray(value)) {
+		const arrayType = value.length ? getType(value[0]) : "any";
+		return `${arrayType}[]`;
+	}
+	if (value === null) { return "null"; }
+	if (value === "function") { return "() => void"; }
+	if (value instanceof Date) { return "Date"; }
+	if (typeof value === "object") {
+		if (Object.keys(value).length === 0) {
+			return "{}";
+		}
+		const properties = Object.entries(value)
+			.map(([key, val]) => `${key}: ${getType(val)};`)
+			.join(" ");
+
+		return `{ ${properties} }`;
+	}
+	return typeof value;
+}
+
+/**
+ * Infers the TypeScript type definition from a JavaScript object.
+ */
+function inferType(obj: any, name: string = "InferredType"): string {
+	const typeDef = `type ${name} = ${getType(obj)}`;
+	return typeDef;
+}
+
+/**
+ * Activate function: Registers the VS Code command.
+ */
+export function activate(context: vscode.ExtensionContext) {
+	console.log('AutoTypeX extension is now active!');
+
+	// Register the command
+	const inferTypeCommand = vscode.commands.registerCommand('autotypex-vscode.inferType', async () => {
+		const editor = vscode.window.activeTextEditor;
+		if (!editor) {
+			vscode.window.showErrorMessage('No active editor found.');
+			return;
+		}
+
+		const selection = editor.selection;
+		let selectedText = editor.document.getText(selection);
+
+		if (!selectedText.trim()) {
+			vscode.window.showErrorMessage('Please select a JavaScript object.');
+			return;
+		}
+
+		try {
+			selectedText = sanitizeObjectString(selectedText); // Sanitize before parsing
+
+			// Parse safely using JSON.parse
+			const obj = JSON.parse(selectedText);
+			const inferredType = inferType(obj);
+
+			// Insert the inferred type in the editor
+			editor.edit(editBuilder => {
+				editBuilder.insert(editor.selection.active, `\n\n${inferredType}\n`);
+			});
+
+			vscode.window.showInformationMessage('Inferred TypeScript type inserted.');
+		} catch (error) {
+			vscode.window.showErrorMessage('Failed to infer TypeScript type. Make sure your selection is a valid JSON-like object.');
+			console.error(error);
+		}
+	});
+
+	context.subscriptions.push(inferTypeCommand);
+}
+
+/**
+ * Deactivate function: Cleanup when the extension is disabled.
+ */
+export function deactivate() { }

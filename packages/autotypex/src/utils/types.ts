@@ -14,6 +14,7 @@ function getType(value: any): string {
     }
     if (value === null) return "null";
     if (value instanceof Date) return "Date";
+    if (typeof value === "function") { return "() => void"; }
     if (typeof value === "object") {
         if (Object.keys(value).length === 0) {
             return "{}";

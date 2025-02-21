@@ -15,8 +15,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "autotypex-vscode.helloWorld",
-        "title": "Hello World"
+        "command": "autotypex-vscode.inferType",
+        "title": "Infer TypeScript Type from Object"
       }
     ]
   },
