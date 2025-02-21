@@ -1,8 +1,8 @@
-# autotype-js 🚀
+# autotypex 🚀
 
 **Automatically infer TypeScript types from JavaScript objects!**
 
-`autotype-js` is a lightweight CLI tool and NPM package that dynamically analyzes JavaScript/JSON files and generates TypeScript type definitions. Perfect for developers migrating from JS to TS or handling dynamic data structures.
+`autotypex` is a lightweight CLI tool and NPM package that dynamically analyzes JavaScript/JSON files and generates TypeScript type definitions. Perfect for developers migrating from JS to TS or handling dynamic data structures.
 
 ---
 
@@ -10,17 +10,17 @@
 
 ### **Using Yarn**  
 ```sh
-yarn add autotype-js
+yarn add autotypex
 ```
 
 ### **Using NPM**  
 ```sh
-npm install autotype-js
+npm install autotypex
 ```
 
 Or, run it directly via `npx`:
 ```sh
-npx autotype-js <file.json>
+npx autotypex <file.json>
 ```
 
 ---
@@ -30,7 +30,7 @@ npx autotype-js <file.json>
 ### **CLI Usage**
 
 ```sh
-npx autotype-js <file.json> [options]
+npx autotypex <file.json> [options]
 ```
 
 #### **Example: Inferring a Type from a JSON File**
@@ -45,7 +45,7 @@ npx autotype-js <file.json> [options]
 ```
 Run:
 ```sh
-npx autotype-js sample.json
+npx autotypex sample.json
 ```
 ✅ **Output:**  
 ```ts
@@ -54,7 +54,7 @@ type InferredType = { id: number; name: string; isActive: boolean };
 
 #### **Custom Type Name**  
 ```sh
-npx autotype-js sample.json --name UserType
+npx autotypex sample.json --name UserType
 ```
 ✅ **Output:**  
 ```ts
@@ -63,7 +63,7 @@ type UserType = { id: number; name: string; isActive: boolean };
 
 #### **Saving Output to a `.d.ts` File**  
 ```sh
-npx autotype-js sample.json --name UserType --save
+npx autotypex sample.json --name UserType --save
 ```
 ✅ **Creates `types/UserType.d.ts`** with:  
 ```ts
@@ -77,7 +77,7 @@ module.exports = { id: 1, name: "Alice", isActive: true };
 ```
 Run:
 ```sh
-npx autotype-js sample.js
+npx autotypex sample.js
 ```
 
 ---
@@ -94,7 +94,7 @@ npx autotype-js sample.js
 ## 📌 Programmatic Usage
 
 ```ts
-import { inferType } from "autotype-js";
+import { inferType } from "autotypex";
 
 const obj = { id: 1, name: "Alice", isActive: true };
 console.log(inferType(obj, "UserType"));
@@ -117,7 +117,7 @@ MIT License © 2025 Rashad
 
 Contributions are welcome! Feel free to submit an issue or pull request.
 
-- **GitHub Repo:** [GitHub](https://github.com/rashadataf/autotype-js.git)
-- **NPM Package:** [NPM](https://www.npmjs.com/package/autotype-js)
+- **GitHub Repo:** [GitHub](https://github.com/rashadataf/autotypex.git)
+- **NPM Package:** [NPM](https://www.npmjs.com/package/autotypex)
 
 🚀 **Happy Coding!**
