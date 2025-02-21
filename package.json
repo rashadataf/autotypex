@@ -11,6 +11,17 @@
         "test:package:coverage": "yarn workspace autotypex run test:coverage",
         "dev:package": "yarn workspace autotypex run dev",
         "start:package": "yarn workspace autotypex run start",
-        "publish:package": "yarn workspace autotypex publish"
+        "publish:package": "yarn workspace autotypex publish",
+        "compile:extension": "yarn workspace autotypex-vscode run compile",
+        "watch:extension": "yarn workspace autotypex-vscode run watch",
+        "watch:extension:esbuild": "yarn workspace autotypex-vscode run watch:esbuild",
+        "watch:extension:tsc": "yarn workspace autotypex-vscode run watch:tsc",
+        "package:extension": "yarn workspace autotypex-vscode run package",
+        "test:extension": "yarn workspace autotypex-vscode run test",
+        "test:extension:compile": "yarn workspace autotypex-vscode run compile-tests",
+        "test:extension:watch": "yarn workspace autotypex-vscode run watch-tests",
+        "pretest:extension": "yarn workspace autotypex-vscode run pretest",
+        "types:extension:check": "yarn workspace autotypex-vscode run check-types",
+        "lint:extension": "yarn workspace autotypex-vscode run lint"
     }
 }
