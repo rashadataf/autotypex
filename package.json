@@ -1,43 +1,16 @@
 {
-  "name": "autotypex",
-  "version": "1.0.0",
-  "description": "Automatically infer TypeScript types from JavaScript objects.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "author": "Rashad Ataf <rashadataf@gmail.com>",
-  "license": "MIT",
-  "keywords": [
-    "typescript",
-    "type inference",
-    "typescript types",
-    "js to ts"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/rashadataf/autotypex.git"
-  },
-  "scripts": {
-    "build": "tsc",
-    "dev": "ts-node-dev --respawn --watch src src/index.ts",
-    "start": "node dist/index.js",
-    "clean": "rm -rf dist",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
-  },
-  "devDependencies": {
-    "@types/jest": "^29.5.14",
-    "@types/node": "^22.13.4",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.2.5",
-    "ts-node": "^10.9.2",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^5.7.3"
-  },
-  "dependencies": {
-    "commander": "^13.1.0"
-  },
-  "bin": {
-    "autotypex": "./dist/bin/cli.js"
-  }
+    "private": true,
+    "workspaces": [
+        "packages/*"
+    ],
+    "scripts": {
+        "build:package": "yarn workspace autotypex run build",
+        "clean:package": "yarn workspace autotypex run clean",
+        "test:package": "yarn workspace autotypex run test",
+        "test:package:watch": "yarn workspace autotypex run test:watch",
+        "test:package:coverage": "yarn workspace autotypex run test:coverage",
+        "dev:package": "yarn workspace autotypex run dev",
+        "start:package": "yarn workspace autotypex run start",
+        "publish:package": "yarn workspace autotypex publish"
+    }
 }
