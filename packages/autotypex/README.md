@@ -6,7 +6,7 @@
 
 ---
 
-## 📦 Installation
+## 📺 Installation
 
 ### **Using Yarn**  
 ```sh
@@ -47,7 +47,7 @@ Run:
 ```sh
 npx autotypex sample.json
 ```
-✅ **Output:**  
+👉 **Output:**  
 ```ts
 type InferredType = { id: number; name: string; isActive: boolean };
 ```
@@ -56,7 +56,7 @@ type InferredType = { id: number; name: string; isActive: boolean };
 ```sh
 npx autotypex sample.json --name UserType
 ```
-✅ **Output:**  
+👉 **Output:**  
 ```ts
 type UserType = { id: number; name: string; isActive: boolean };
 ```
@@ -65,7 +65,7 @@ type UserType = { id: number; name: string; isActive: boolean };
 ```sh
 npx autotypex sample.json --name UserType --save
 ```
-✅ **Creates `types/UserType.d.ts`** with:  
+👉 **Creates `types/UserType.d.ts`** with:  
 ```ts
 type UserType = { id: number; name: string; isActive: boolean };
 ```
@@ -88,6 +88,7 @@ npx autotypex sample.js
 | ------------ | ----------------------------------------------------------- |
 | `-n, --name` | Specify the TypeScript type name (default: `InferredType`). |
 | `-s, --save` | Save the output as a `.d.ts` file inside `types/`.          |
+| `-f, --format` | Format the output (default: `true`, can be `false`). |
 
 ---
 
@@ -100,14 +101,14 @@ const obj = { id: 1, name: "Alice", isActive: true };
 console.log(inferType(obj, "UserType"));
 ```
 
-✅ **Output:**
+👉 **Output:**
 ```ts
 type UserType = { id: number; name: string; isActive: boolean };
 ```
 
 ---
 
-## 📜 License
+## 🐝 License
 
 MIT License © 2025 Rashad
 

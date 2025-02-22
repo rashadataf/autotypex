@@ -12,6 +12,7 @@ program
     .argument("<file>", "Path to JSON or JavaScript file")
     .option("-n, --name <typeName>", "Specify the TypeScript type name", "InferredType")
     .option("-s, --save", "Save the output as a `.d.ts` file")
+    .option("-f, --format <boolean>", "Format the output (true or false, default: true)", (val) => val === "true", true)
     .action((file, options) => {
         try {
             const filePath = resolve(file);
@@ -32,7 +33,7 @@ program
                 process.exit(1);
             }
 
-            const typeDefinition = inferType(jsonObject, options.name, options.save);
+            const typeDefinition = inferType(jsonObject, options.name, options.save, options.format);
             console.log(`\n✅ Inferred TypeScript Type:\n${typeDefinition}\n`);
         } catch (error) {
             const err = error as any;
