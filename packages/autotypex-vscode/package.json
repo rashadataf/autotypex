@@ -4,6 +4,11 @@
   "displayName": "autotypex-vscode",
   "description": "Automatically infer and generate TypeScript types from JavaScript objects within VS Code.",
   "version": "0.0.1",
+  "publisher": "rashadataf",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rashadataf/autotypex.git"
+  },
   "engines": {
     "vscode": "^1.97.0"
   },

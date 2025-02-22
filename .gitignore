@@ -7,3 +7,7 @@ types/
 
 # TESTS
 coverage/
+.vscode-test
+packages/autotypex-vscode/out
+
+DO
