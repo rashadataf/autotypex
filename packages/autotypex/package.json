@@ -1,6 +1,6 @@
 {
   "name": "autotypex",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Automatically infer TypeScript types from JavaScript objects.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
