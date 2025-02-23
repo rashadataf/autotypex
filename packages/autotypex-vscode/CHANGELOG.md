@@ -1,9 +1,6 @@
 # Changelog
 
-All notable changes to the **AutoTypeX VS Code Extension** will be documented in this file.  
-This project follows the [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) format.  
-
-## [1.0.0] - 2025-02-21
+## [0.0.1] - 2025-02-23
 ### 🚀 Initial Release
 - **Infer TypeScript types from JavaScript objects.**
 - **Support nested objects and arrays** in the inferred TypeScript types.

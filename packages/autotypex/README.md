@@ -49,16 +49,24 @@ npx autotypex sample.json
 ```
 👉 **Output:**  
 ```ts
-type InferredType = { id: number; name: string; isActive: boolean };
+type InferredType =  {
+	 id: number;
+	 name: string;
+	 isActive: boolean;
+}
 ```
 
 #### **Custom Type Name**  
 ```sh
 npx autotypex sample.json --name UserType
 ```
-👉 **Output:**  
+👉 **Output:**
 ```ts
-type UserType = { id: number; name: string; isActive: boolean };
+type UserType =  {
+	 id: number;
+	 name: string;
+	 isActive: boolean;
+}
 ```
 
 #### **Saving Output to a `.d.ts` File**  
@@ -67,17 +75,34 @@ npx autotypex sample.json --name UserType --save
 ```
 👉 **Creates `types/UserType.d.ts`** with:  
 ```ts
-type UserType = { id: number; name: string; isActive: boolean };
+type UserType =  {
+	 id: number;
+	 name: string;
+	 isActive: boolean;
+}
 ```
 
-#### **Working with JavaScript Files**  
-If `sample.js` contains:  
+#### **Working with JavaScript Files**
+If `sample.js` contains:
 ```js
-module.exports = { id: 1, name: "Alice", isActive: true };
+module.exports = {
+  id: 1,
+  name: "Alice",
+  isActive: true
+};
 ```
 Run:
 ```sh
 npx autotypex sample.js
+```
+
+👉 **Output:**
+```ts
+type InferredType =  {
+	 id: number;
+	 name: string;
+	 isActive: boolean;
+}
 ```
 
 ---
@@ -94,16 +119,20 @@ npx autotypex sample.js
 
 ## 📌 Programmatic Usage
 
-```ts
-import { inferType } from "autotypex";
+```js
+const { inferType } = require("autotypex");
 
 const obj = { id: 1, name: "Alice", isActive: true };
-console.log(inferType(obj, "UserType"));
+console.log(inferType(obj));
 ```
 
 👉 **Output:**
 ```ts
-type UserType = { id: number; name: string; isActive: boolean };
+type InferredType =  {
+	 id: number;
+	 name: string;
+	 isActive: boolean;
+}
 ```
 
 ---

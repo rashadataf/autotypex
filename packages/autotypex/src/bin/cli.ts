@@ -7,7 +7,7 @@ import { inferType } from "../utils/types";
 const program = new Command();
 
 program
-    .version("1.0.0")
+    .version("0.0.1")
     .description("Infer TypeScript types from JavaScript/JSON files")
     .argument("<file>", "Path to JSON or JavaScript file")
     .option("-n, --name <typeName>", "Specify the TypeScript type name", "InferredType")
